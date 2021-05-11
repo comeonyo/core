@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 public class SingletonWithPrototypeTest1 {
 
@@ -39,14 +40,14 @@ public class SingletonWithPrototypeTest1 {
 
     @Scope("singleton")
     static class ClientBean {
-        private final ObjectProvider<PrototypeBean> prototypeBeansProvider;
+        private final Provider<PrototypeBean> prototypeBeansProvider;
 
-        ClientBean(ObjectProvider<PrototypeBean> prototypeBeansProvider) {
+        ClientBean(Provider<PrototypeBean> prototypeBeansProvider) {
             this.prototypeBeansProvider = prototypeBeansProvider;
         }
 
         public int logic() {
-            PrototypeBean prototypeBean = prototypeBeansProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeansProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
